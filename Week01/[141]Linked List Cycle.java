@@ -69,12 +69,12 @@ public class Solution {
         if (null == head) {
             return false;
         }
-        ListNode p = head;
-        ListNode q = head;
-        while (null != p.next && null != q.next && null != q.next.next) {
-            p = p.next;
-            q = q.next.next;
-            if (p == q) {
+        ListNode s = head;
+        ListNode f = head;
+        while (null != f && null != f.next) {
+            s = s.next;
+            f = f.next.next;
+            if (s == f) {
                 return true;
             }
         }
