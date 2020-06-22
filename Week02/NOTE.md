@@ -105,6 +105,45 @@ Heap：可以迅速找到一堆数中`最大`或`最小`值的数据结构
 - DFS
 - BFS
 
+### DFS模板
+
+```python
+#图与树中的DFS最大区别
+#图中可能有环，需要标记结点是否已被访问
+visted = set()
+def dfs(node, visited):
+  #terminator
+  if node in visited:
+    #already visied
+    return
+  visited.add(node)
+  #process current node
+  #...
+  for next_node in node.children():
+    if not next_node in visited:
+      dfs(next_node, visited)
+```
+
+
+
+### BFS模板
+
+```python
+def bfs(graph, start, end):
+  queue = []
+  queue.append([start])
+  visited = set()
+  while queue:
+    node = queue.pop()
+    visited.add(node)
+    #process current
+    process(node)
+    nodes = generate_related_nodes(node)
+    queue.push(nodes)
+```
+
+
+
 ## 作业
 
 ### HashMap源码分析
