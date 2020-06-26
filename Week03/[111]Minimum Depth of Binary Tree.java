@@ -43,7 +43,7 @@ class Solution {
 
     // BFS，找到第一个叶子结点，其深度即为最小高度
     // 减少结点访问可能次数
-    // 类似层序遍历 -> 找一个包含叶子结点的层
+    // 类似层序遍历 -> 找第一个包含叶子结点的层
     public int minDepth(TreeNode root) {
         if (null == root) return 0;
         LinkedList<TreeNode> queue = new LinkedList<>();
@@ -101,12 +101,12 @@ class Solution {
         while (!stack.isEmpty()) {
             List tuple = stack.pop();
             TreeNode node = (TreeNode) tuple.get(0);
-            Integer current_depth = (Integer) tuple.get(1);
+            Integer currentDepth = (Integer) tuple.get(1);
             if (null == node.left && null == node.right) {
-                depth = Math.min(depth, current_depth);
+                depth = Math.min(depth, currentDepth);
             }
-            if (null != node.right) stack.push(tuple(node.right, current_depth + 1));
-            if (null != node.left) stack.push(tuple(node.left, current_depth + 1));
+            if (null != node.right) stack.push(tuple(node.right, currentDepth + 1));
+            if (null != node.left) stack.push(tuple(node.left, currentDepth + 1));
         }
         return (int) depth;
     }
