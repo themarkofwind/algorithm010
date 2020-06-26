@@ -66,8 +66,8 @@ class Solution {
     // recursion optimize
     public int minDepth3(TreeNode root) {
         if (null == root) return 0;
-        int left = minDepth(root.left);
-        int right = minDepth(root.right);
+        int left = minDepth3(root.left);
+        int right = minDepth3(root.right);
         // left和right有一个为0，说明当前结点只包含左/右子树，其depth为左/右子树的高度+1
         // left和right都为为0，说明当前结点就是叶子结点，其depth就是1
         // 左右子树都存在，取较小的子树高度+1
@@ -82,10 +82,10 @@ class Solution {
         // process current & drill down
         int min = Integer.MAX_VALUE;
         if (null != root.left) {
-            min = Math.min(minDepth(root.left), min);
+            min = Math.min(minDepth2(root.left), min);
         }
         if (null != root.right) {
-            min = Math.min(minDepth(root.right), min);
+            min = Math.min(minDepth2(root.right), min);
         }
         return min + 1;
     }
