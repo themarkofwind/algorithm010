@@ -38,10 +38,66 @@
  * }
  */
 class Solution {
+
+    // optimize
+    // k = 4
+    // hair -> 1 -> 2 -> 3 -> 4 -> 5 -> 6
+    // prev    s              e
+    //
+    // hair -> 4 -> 3 -> 2 -> 1 -> 5 -> 6
+    //                       prev
+    //                             s(e == null循环结束) 
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (null == head || k <= 0) return head;
+        ListNode hair = new ListNode(-1);
+        hair.next = head;
+        ListNode prev = hair;
+        while (null != prev) {
+            // 批次找出要反转的k个结点
+            // k个结点链表起始位置
+            ListNode start = prev.next;
+            // k个结点链表结束位置
+            ListNode end = prev;
+            int i = 0;
+            while (i++ < k && null != end) {
+                end = end.next;
+            }
+            // end不为null说明可以反转
+            if (null != end) {
+                // 反转start -> end
+                reverseK(start, end, k);
+                // 反转后原来的end变成k链表的头结点
+                prev.next = end;
+                // prev指向处理完的k链表尾结点，继续下一个迭代
+                prev = start;
+            } else {
+                // 最后的结点个数不够k个，不处理
+                prev = null;
+            }
+        }
+        
+        return hair.next;
+    }
+    
+    // reverse k nodes list
+    private void reverseK(ListNode start, ListNode end, int k) {
+        // prev设为下一段链表的头结点
+        // 这样反转链表后，k链表的尾结点将自动指向下一段链表的头结点
+        ListNode prev = end.next;
+        ListNode cur = start;
+        int i = 0;
+        while (i++ < k) {
+            ListNode tmp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = tmp;
+        }
+    }
+
     // hair ->  1  ->  2  ->  3  ->  4  ->  5
     //  pre ->  s             e
     // hair ->               pre     s      e
-    public ListNode reverseKGroup(ListNode head, int k) {
+    public ListNode reverseKGroup1(ListNode head, int k) {
         if (null == head || k <= 1) {
             return head;
         }
@@ -60,7 +116,7 @@ class Solution {
                 m++;
             }
             if (m == k) {
-                ListNode[] nodes = reverseK(start, end, k);
+                ListNode[] nodes = reverseK1(start, end, k);
                 pre.next = nodes[0];
                 pre = nodes[1];
             } else {
@@ -72,7 +128,7 @@ class Solution {
 
     // reverse k nodes
     // 返回反转后的链表头、尾节点
-    private ListNode[] reverseK(ListNode start, ListNode end, int k) {
+    private ListNode[] reverseK1(ListNode start, ListNode end, int k) {
         // 反转链表的尾节点，自动指向下一段的头节点
         ListNode pre = end.next;
         ListNode cur = start;
