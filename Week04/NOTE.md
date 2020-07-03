@@ -76,3 +76,26 @@ def bfs(graph, start, end):
 
 **应用：**最小生成树，哈夫曼编码等
 
+## 二分查找
+
+### 前提
+
+-  目标函数单调性
+- 存在上下界
+- 能够通过索引访问
+
+### 代码模板
+
+```python
+left, right = 0, len(array) - 1
+while left <= right:
+  mid = (left + right) / 2
+  if array[mid] == target:
+    # find the target
+    break or return result
+  elif array[mid] < target:
+    left = mid + 1
+  else:
+    right = mid - 1
+```
+
