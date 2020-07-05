@@ -114,7 +114,7 @@ class Solution {
                 // valid position
                 if (m >= 0 && m < board.length && n >= 0 && n < board[m].length) {
                     if (mines == 0 && board[m][n] == 'E') {
-                        board = updateBoard(board, new int[]{m, n});
+                        board = updateBoard1(board, new int[]{m, n});
                     }
                 }
             }
