@@ -47,92 +47,92 @@ import java.util.LinkedList;
  */
 public class Codec {
 
-    // DFS
+    //=====================DFS=========================//
+
+    // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         if (null == root) return "";
-        StringBuilder sb = new StringBuilder("");
-        serialize(root, sb);
+        StringBuilder sb = new StringBuilder();
+        doSerialize(root, sb);
         return sb.substring(1);
     }
 
-    private void serialize(TreeNode node, StringBuilder sb) {
+    private void doSerialize(TreeNode node, StringBuilder sb) {
         if (null == node) {
-            sb.append(",").append("#");
+            sb.append(",#");
             return;
         }
         sb.append(",").append(node.val);
-        serialize(node.left, sb);
-        serialize(node.right, sb);
+        doSerialize(node.left, sb);
+        doSerialize(node.right, sb);
     }
 
+    // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if (null == data || data.isEmpty()) return null;
-        LinkedList<String> list = new LinkedList<>(Arrays.asList(data.split(",")));
-        return deserialize(list);
+        if (null == data || data.length() <= 0) return null;
+        return doDeserialize(data.split(","));
     }
 
-    private TreeNode deserialize(LinkedList<String> list) {
-        String rootVal = list.poll();
-        if (rootVal.equals("#")) return null;
-        TreeNode root = new TreeNode(Integer.valueOf(rootVal));
-        root.left = deserialize(list);
-        root.right = deserialize(list);
-        return root;
+    private int index = 0;
+
+    private TreeNode doDeserialize(String[] array) {
+        if (array.length <= index) return null;
+        String val = array[index++];
+        if (val.equals("#")) return null;
+        TreeNode node = new TreeNode(Integer.valueOf(val));
+        node.left = doDeserialize(array);
+        node.right = doDeserialize(array);
+        return node;
     }
 
-
-    // BFS -> 先序/层序遍历，null结点用特殊字符占位
+    //======================BFS===========================//
+    
     // Encodes a tree to a single string.
     public String serialize1(TreeNode root) {
-        if (null == root) return "";
-        LinkedList<TreeNode> queue = new LinkedList<>();
-        queue.offerLast(root);
+        if (null == root) return null;
         StringBuilder sb = new StringBuilder();
-        sb.append(",").append(root.val);
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
         while (!queue.isEmpty()) {
-            TreeNode node = queue.pollFirst();
-            TreeNode left = node.left;
-            TreeNode right = node.right;
-            if (null == left) {
-                sb.append(",").append("#");
-            } else {
-                sb.append(",").append(left.val);
+            int size = queue.size();
+            while (size-- > 0) {
+                TreeNode node = queue.poll();
+                if (null != node) {
+                    sb.append(",").append(node.val);
+                    queue.offer(node.left);
+                    queue.offer(node.right);
+                } else {
+                    sb.append(",#");
+                }
             }
-            if (null == right) {
-                sb.append(",").append("#");
-            } else {
-                sb.append(",").append(right.val);
-            }
-            if (null != right) queue.offerLast(node.right);
-            if (null != left) queue.offerLast(node.left);
         }
-
         return sb.substring(1);
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize1(String data) {
-        if (null == data || data.isEmpty()) return null;
-        String[] nodeArray = data.split(",");
-        TreeNode root = new TreeNode(Integer.valueOf(nodeArray[0]));
+        if (null == data || data.length() <= 0) return null;
+        String[] array = data.split(",");
+        TreeNode root = new TreeNode(Integer.valueOf(array[0]));
         LinkedList<TreeNode> queue = new LinkedList<>();
-        queue.offerLast(root);
-        int i = 1;
-        while (!queue.isEmpty() && i < nodeArray.length) {
-            TreeNode node = queue.pollFirst();
-            String leftVal = nodeArray[i++];
-            String rightVal = nodeArray[i++];
-            // 右子结点
-            if (!rightVal.equals("#")) {
-                TreeNode right = new TreeNode(Integer.valueOf(rightVal));
-                node.right = right;
-                queue.offerLast(right);
-            }
-            // 左子结点
-            if (!leftVal.equals("#")) {
-                TreeNode left = new TreeNode(Integer.valueOf(leftVal));
-                node.left = left;
-                queue.offerLast(left);
+        queue.offer(root);
+        int i = 0;
+        while (!queue.isEmpty() && i < array.length) {
+            int size = queue.size();
+            while (size-- > 0) {
+                TreeNode node = queue.poll();
+                String leftVal = array[++i];
+                String rightVal = array[++i];
+                if (!leftVal.equals("#")) {
+                    TreeNode left = new TreeNode(Integer.valueOf(leftVal));
+                    node.left = left;
+                    queue.offer(left);
+                }
+                if (!rightVal.equals("#")) {
+                    TreeNode right = new TreeNode(Integer.valueOf(rightVal));
+                    node.right = right;
+                    queue.offer(right);
+                }
             }
         }
 

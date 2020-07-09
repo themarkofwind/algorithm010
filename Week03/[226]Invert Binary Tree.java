@@ -70,8 +70,8 @@ class Solution {
         // terminator
         if (null == root) return null;
         // drill down
-        TreeNode left = invertTree(root.left);
-        TreeNode right = invertTree(root.right);
+        TreeNode left = invertTree2(root.left);
+        TreeNode right = invertTree2(root.right);
         // process current
         root.left = right;
         root.right = left;

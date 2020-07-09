@@ -68,5 +68,40 @@ class Solution {
 }
 ```
 
+## 剑指Offer 49 丑数
+
+- 每次找之前丑数中最小的
+- 用最小的数分别与2、3、5相乘，加入堆（可能产生重复的数据）
+- 每次取小根堆堆顶时，需要判定是否与上一个取值相同，相同需要剔除
+- 时间复杂度`O(NlogN)`
+- 空间复杂度`O(N)`
+
+```java
+class Solution {
+    // heap
+    public int nthUglyNumber(int n) {
+        if (n <= 0) return -1;
+        // 小根堆
+        PriorityQueue<Long> heap = new PriorityQueue<>();
+        heap.offer(1L);
+        long cur = 0L;
+        while (true) {
+            // 此处判断是否有相同丑数
+            // 相同的需要剔除
+            if (cur != heap.peek()) {
+                cur = heap.poll();
+                heap.offer(cur * 2);
+                heap.offer(cur * 3);
+                heap.offer(cur * 5);
+                n--;
+            } else {
+                heap.poll();
+            }
+            if (n == 0) return (int) cur;
+        }
+    }
+}
+```
+
 
 

@@ -45,6 +45,24 @@ class Solution {
         return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
+    // BFS
+    public int maxDepth2(TreeNode root) {
+        if (null == root) return 0;
+        int depth = 0;
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size-- > 0) {
+                TreeNode node = queue.poll();
+                if (null != node.left) queue.offer(node.left);
+                if (null != node.right) queue.offer(node.right);
+            }
+            depth++;
+        }
+        return depth;
+    }
+
     // DFS
     public int maxDepth(TreeNode root) {
         if (null == root) return 0;
