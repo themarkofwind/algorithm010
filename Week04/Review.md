@@ -238,3 +238,129 @@ class Solution {
     }
 ```
 
+## [leetcode 55 jump-game](https://leetcode-cn.com/problems/jump-game/)
+
+**从后向前贪心算法**
+
+```java
+class Solution {
+    // greedy
+    public boolean canJump(int[] nums) {
+        if (null == nums || nums.length <= 1) return true;
+        int end = nums.length - 1;
+        // 从后向前，判断结点是否可达
+        // 可达则以此判断前一个结点是否可达（局部最优）
+        // 最终能到首结点，则整体可达
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (nums[i] >= end - i) {
+                end = i;
+            }   
+        }
+        return end == 0;
+    }
+}
+```
+
+## [leetcode 45 jump-game-ii](https://leetcode-cn.com/problems/jump-game-ii/)
+
+```java
+class Solution {
+    // i ->
+    // 2, 3, 1, 1, 4, 3, 2, 5
+    // |     |
+    //  step1
+    //    |        |
+    //      step2
+    //             |            |
+    //                 step3
+    // i + nums[i] 第i个位置能跳到的最大范围
+    // i ~ (i + nums[i) 范围中能到达的最大位置，是第二步的右界限
+    // 每一步计算能到达的最后界限，若大等于数组边界则一定能到达最后位置
+    public int jump(int[] nums) {
+        if (null == nums || nums.length <= 1) return 0;
+        // 当前位置可以跨越的最大范围
+        int curMax = 0;
+        // 当前范围中位置可以跨越的最大位置
+        int nextMax = 0;
+        int steps = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            nextMax = Math.max(nextMax, i + nums[i]);
+            // 下个最大范围已经覆盖最后一位
+            if (nextMax >= nums.length - 1) return steps + 1;
+            if (i == curMax) {
+                steps++;
+                curMax = nextMax;
+            }
+        }
+        return steps;
+    }
+}
+```
+
+## [leetcode 33 search-in-rotated-sorted-array](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        if (null == nums || nums.length <= 0) return -1;
+        int left = 0;
+        int right = nums.length - 1;
+        // 注意边界条件 <=
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) return mid;
+            // 注意边界条件 >=
+            // 左边有序
+            if (nums[mid] >= nums[left]) {
+                // 注意边界条件 <=，left位置数值有可能与target相同
+                // target处于有序区间内
+                if (nums[left] <= target && target < nums[mid]) {
+                    right = mid - 1;
+                } else {
+                    // target与mid位置数值不相同，left需要+1
+                    left = mid + 1;
+                }
+            } else {
+                // 右边有序
+                // target处于有序区间内
+                // 注意边界条件 <=，right位置数值有可能与target相同
+                if (nums[mid] < target && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    // target与mid位置数值不相同，right需要-1
+                    right = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+}
+```
+
+## [leetcode 153 find-minimum-in-rotated-sorted-array](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+
+```java
+class Solution {
+    // find rotation index
+    // use while (start <= end) if you are returning the match from inside the loop.
+    // use while (start < end) if you want to exit out of the loop first, and then use the result of start or end to return the match.
+    public int findMin(int[] nums) {
+        if (null == nums || nums.length <= 0) return -1;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            // 整体有序
+            if (nums[left] < nums[right]) return nums[left];
+            int mid = left + (right - left) / 2;
+            // 左边有序
+            if (nums[mid] >= nums[left]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+}
+```
+
