@@ -305,3 +305,19 @@ class Solution {
 }
 ```
 
+### Buy & Sell Stock Problems
+
+leetcode: 121, 122, 123, 188, 309, 714
+
+https://labuladong.gitbook.io/algo/dong-tai-gui-hua-xi-lie/tuan-mie-gu-piao-wen-ti
+
+```java
+// DP方程
+// dp[i][k][0]：第i天，第k次交易股票，卖出股票（最大利润）
+// dp[i][k][1]：第i天，第k次交易股票，买入股票（最大利润）
+dp[i][k][0] = Math.max(dp[i][k][0], dp[i-1][k][1] + prices[i]);
+dp[i][k][1] = Math.max(dp[i][k][1], dp[i-1][k-1][0] - prices[i]);
+// 最大利润，最后一天卖出股票对应的利润
+return dp[lastDay][0]
+```
+
