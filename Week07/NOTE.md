@@ -78,3 +78,9 @@ def parent(self, p, i):
   return root
 ```
 
+## 高级搜索
+
+- 剪枝
+- 双向搜索
+- 启发式搜索
+
