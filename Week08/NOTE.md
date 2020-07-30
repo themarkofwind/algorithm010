@@ -53,3 +53,40 @@
 - 两个要素：大小、替换策略
 - Hash Table + Double LinkedList
 - 查询 `O(1)`，更新 `O(1)`
+
+## 排序
+
+- 比较类排序（`非线性时间比较类排序`）
+  - 比较元素间相对次序
+  - 时间复杂度不超过`O(nlogn)`
+  - 适用于多种类型
+
+- 非比较类排序（`线性时间非比较类排序`）
+  - 线性时间运行
+  - 只适用于类似整数型数据比较
+  - 一般需要辅助内存空间
+
+### 初级排序`O(N^2)`
+
+- 选择排序 Selection Sort
+- 插入排序 Insertion Sort
+- 冒泡排序 Bubble Sort
+
+### 高级排序`O(NlogN)`
+
+- 快速排序 Quick Sort
+  - 分治
+  - [small]`pivot`[bigger]
+  - 先调配左右子数组，再分别子数组排序
+- 归并排序 Merge Sort
+  - 分治
+  - 左右子数组排序，再合并
+- 堆排序 Heap Sort
+  - 插入 `O(logN)`
+  - 取最大/小值`O(1)`
+
+### 特殊排序`O(N)`
+
+- 计数排序 Counting Sort
+- 桶排序 Bucket Sort
+- 基数排序 Radix Sort
