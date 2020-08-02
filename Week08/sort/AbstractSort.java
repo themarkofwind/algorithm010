@@ -36,8 +36,8 @@ public abstract class AbstractSort {
     }
 
     public static void main(String[] args) {
-        int[] array = new int[]{2, 3, 7, 3, 0, 1, 4, 2, -1, 20};
-        AbstractSort method = new BucketSort(array);
+        int[] array = new int[]{2, 300, 17, 13, 0, 31, 4130, 2, 20};
+        AbstractSort method = new RadixSort(array);
         method.sort();
         method.print();
     }
